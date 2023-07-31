@@ -9,6 +9,9 @@ switch ($method) {
     case 'GET':
         get();
         break;
+    case 'POST':
+        post();
+        break;
     case 'DELETE':
         delete();
         break;
@@ -27,6 +30,19 @@ function get()
         apiSuccess($resHeaders->fetch_all(MYSQLI_ASSOC));
     } else {
         apiSuccess(array());
+    }
+}
+
+function post()
+{
+    global $conn;
+    $sqlHeader = "insert into headers (created_at) value (CURDATE());";
+
+    try {
+        $conn->query($sqlHeader);
+        apiSuccess(array());
+    } catch (Exception $e) {
+        apiFailure(500, $e->getMessage());
     }
 }
 
